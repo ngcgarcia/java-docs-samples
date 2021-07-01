@@ -55,8 +55,8 @@ class LoadCsvExample {
 
   static void loadCsv() throws Exception {
     // TODO(developer): Replace these variables before running the sample.
-    String projectId = "my-project-id";;
-    String instanceId = "my-instance-id";
+    String projectId = "test-project-id";;
+    String instanceId = "test-instance-id";
     String databaseId = "my-database-id";
     String tableName = "my-table-name";
     String filePath = "my-file-path";
@@ -84,7 +84,7 @@ class LoadCsvExample {
     try {
       // Initialize connection to Cloud Spanner
       connection = DriverManager.getConnection(
-          String.format("jdbc:cloudspanner:/projects/%s/instances/%s/databases/%s",
+          String.format("jdbc:cloudspanner://localhost:9010/projects/%s/instances/%s/databases/%s;usePlainText=true",
               projectId, instanceId, databaseId));
       parseTableColumns(tableName);
 

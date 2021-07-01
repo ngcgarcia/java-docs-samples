@@ -28,8 +28,8 @@ class ConnectionWithQueryOptionsExample {
 
   static void connectionWithQueryOptions() throws SQLException {
     // TODO(developer): Replace these variables before running the sample.
-    String projectId = "my-project";
-    String instanceId = "my-instance";
+    String projectId = "test-project";
+    String instanceId = "test-instance";
     String databaseId = "my-database";
     connectionWithQueryOptions(projectId, instanceId, databaseId);
   }
@@ -42,7 +42,7 @@ class ConnectionWithQueryOptionsExample {
     String optimizerVersion = "1";
     String connectionUrl =
         String.format(
-            "jdbc:cloudspanner:/projects/%s/instances/%s/databases/%s?optimizerVersion=%s",
+            "jdbc:cloudspanner://localhost:9010/projects/%s/instances/%s/databases/%s?optimizerVersion=%s;usePlainText=true",
             projectId, instanceId, databaseId, optimizerVersion);
     try (Connection connection = DriverManager.getConnection(connectionUrl);
         Statement statement = connection.createStatement()) {

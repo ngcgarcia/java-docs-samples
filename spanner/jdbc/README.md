@@ -32,5 +32,5 @@ libraries.
 Run the following command on the command line in the project directory:
 
 ```
-mvn clean compile exec:java -Dexec.args="<command> my-instance my-database"
+mvn clean compile exec:java -Dexec.args="<command> test-instance my-database"
 ```

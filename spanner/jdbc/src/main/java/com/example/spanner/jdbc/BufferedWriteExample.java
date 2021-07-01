@@ -28,8 +28,8 @@ class BufferedWriteExample {
 
   static void bufferedWrite() throws SQLException {
     // TODO(developer): Replace these variables before running the sample.
-    String projectId = "my-project";
-    String instanceId = "my-instance";
+    String projectId = "test-project";
+    String instanceId = "test-instance";
     String databaseId = "my-database";
     bufferedWrite(projectId, instanceId, databaseId);
   }
@@ -39,7 +39,7 @@ class BufferedWriteExample {
       throws SQLException {
     String connectionUrl =
         String.format(
-            "jdbc:cloudspanner:/projects/%s/instances/%s/databases/%s",
+            "jdbc:cloudspanner://localhost:9010/projects/%s/instances/%s/databases/%s;usePlainText=true",
             projectId, instanceId, databaseId);
     long singerId = 30;
     long albumId = 10;

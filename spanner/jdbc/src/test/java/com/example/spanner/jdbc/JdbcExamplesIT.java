@@ -53,9 +53,9 @@ import org.junit.runners.JUnit4;
 @SuppressWarnings("checkstyle:AbbreviationAsWordInName")
 public class JdbcExamplesIT {
   // The instance needs to exist for tests to pass.
-  private static String instanceId = System.getProperty("spanner.test.instance");
-  private static String databaseId =
-      formatForTest(System.getProperty("spanner.sample.database", "mysample"));
+  private static String instanceId =  System.getProperty("spanner.test.instance");
+  private static String databaseId = //"my-database";
+       formatForTest(System.getProperty("spanner.sample.database", "mysample"));
   private static DatabaseId dbId;
   private static DatabaseAdminClient dbClient;
 
@@ -83,15 +83,21 @@ public class JdbcExamplesIT {
     Spanner spanner = options.getService();
     dbClient = spanner.getDatabaseAdminClient();
     if (instanceId == null) {
+      System.out.println("InstaceId was null");
       Iterator<Instance> iterator =
           spanner.getInstanceAdminClient().listInstances().iterateAll().iterator();
       if (iterator.hasNext()) {
         instanceId = iterator.next().getId().getInstance();
       }
     }
+
+    System.out.println("project id: " + options.getProjectId());
+    System.out.println("instance id: "  + instanceId);
+    System.out.println("database id: " + databaseId);
     dbId = DatabaseId.of(options.getProjectId(), instanceId, databaseId);
     dbClient.dropDatabase(dbId.getInstanceId().getInstance(), dbId.getDatabase());
     dbClient.createDatabase(instanceId, databaseId, Collections.emptyList()).get();
+    System.out.println(dbClient);
     CreateTableExample.createTable(options.getProjectId(), instanceId, databaseId);
   }
 
@@ -127,7 +133,7 @@ public class JdbcExamplesIT {
   public void insertTestData() throws SQLException {
     String connectionUrl =
         String.format(
-            "jdbc:cloudspanner:/projects/%s/instances/%s/databases/%s",
+            "jdbc:cloudspanner://localhost:9010/projects/%s/instances/%s/databases/%s;usePlainText=true",
             ServiceOptions.getDefaultProjectId(), instanceId, databaseId);
     try (Connection connection = DriverManager.getConnection(connectionUrl)) {
       CloudSpannerJdbcConnection spannerConnection =
@@ -154,7 +160,7 @@ public class JdbcExamplesIT {
   public void removeTestData() throws SQLException {
     String connectionUrl =
         String.format(
-            "jdbc:cloudspanner:/projects/%s/instances/%s/databases/%s",
+            "jdbc:cloudspanner://localhost:9010/projects/%s/instances/%s/databases/%s;usePlainText=true",
             ServiceOptions.getDefaultProjectId(), instanceId, databaseId);
     try (Connection connection = DriverManager.getConnection(connectionUrl);
         Statement statement = connection.createStatement()) {
@@ -172,16 +178,16 @@ public class JdbcExamplesIT {
     assertThat(out).contains("Connected to Cloud Spanner at [");
   }
 
-  @Test
-  public void createConnectionWithCredentials_shouldConnectToSpanner() throws SQLException {
-    String credentials = System.getenv("GOOGLE_APPLICATION_CREDENTIALS");
-    String out =
-        runExample(
-            () ->
-                CreateConnectionWithCredentialsExample.createConnectionWithCredentials(
-                    ServiceOptions.getDefaultProjectId(), instanceId, databaseId, credentials));
-    assertThat(out).contains("Connected to Cloud Spanner at [");
-  }
+  // @Test
+  // public void createConnectionWithCredentials_shouldConnectToSpanner() throws SQLException {
+  //   String credentials = System.getenv("GOOGLE_APPLICATION_CREDENTIALS");
+  //   String out =
+  //       runExample(
+  //           () ->
+  //               CreateConnectionWithCredentialsExample.createConnectionWithCredentials(
+  //                   ServiceOptions.getDefaultProjectId(), instanceId, databaseId, credentials));
+  //   assertThat(out).contains("Connected to Cloud Spanner at [");
+  // }
 
   @Test
   public void createConnectionWithDefaultProjectId_shouldConnectToSpanner() throws SQLException {

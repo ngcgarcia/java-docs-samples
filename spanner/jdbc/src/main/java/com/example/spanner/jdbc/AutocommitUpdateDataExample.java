@@ -26,8 +26,8 @@ class AutocommitUpdateDataExample {
 
   static void update() throws SQLException {
     // TODO(developer): Replace these variables before running the sample.
-    String projectId = "my-project";
-    String instanceId = "my-instance";
+    String projectId = "test-project";
+    String instanceId = "test-instance";
     String databaseId = "my-database";
     update(projectId, instanceId, databaseId);
   }
@@ -38,7 +38,7 @@ class AutocommitUpdateDataExample {
   static void update(String projectId, String instanceId, String databaseId) throws SQLException {
     String connectionUrl =
         String.format(
-            "jdbc:cloudspanner:/projects/%s/instances/%s/databases/%s",
+            "jdbc:cloudspanner://localhost:9010/projects/%s/instances/%s/databases/%s;usePlainText=true",
             projectId, instanceId, databaseId);
     try (Connection connection = DriverManager.getConnection(connectionUrl);
         Statement statement = connection.createStatement()) {

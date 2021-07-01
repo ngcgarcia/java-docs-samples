@@ -27,7 +27,7 @@ class CreateConnectionWithDefaultProjectIdExample {
 
   static void createConnectionWithDefaultProjectId() throws SQLException {
     // TODO(developer): Replace these variables before running the sample.
-    String instanceId = "my-instance";
+    String instanceId = "test-instance";
     String databaseId = "my-database";
     createConnectionWithDefaultProjectId(instanceId, databaseId);
   }
@@ -41,7 +41,8 @@ class CreateConnectionWithDefaultProjectIdExample {
     try (Connection connection =
         DriverManager.getConnection(
             String.format(
-                "jdbc:cloudspanner:/projects/DEFAULT_PROJECT_ID/instances/%s/databases/%s",
+                // "jdbc:cloudspanner://localhost:9010/projects/%s/instances/%s/databases/%s;usePlainText=true",
+                "jdbc:cloudspanner://localhost:9010/projects/DEFAULT_PROJECT_ID/instances/%s/databases/%s;usePlainText=true",
                 instanceId, databaseId))) {
       try (Statement statement = connection.createStatement()) {
         try (ResultSet rs = statement.executeQuery("SELECT CURRENT_TIMESTAMP()")) {

@@ -26,8 +26,8 @@ class BatchDdlUsingSqlStatementsExample {
 
   static void batchDdlUsingSqlStatements() throws SQLException {
     // TODO(developer): Replace these variables before running the sample.
-    String projectId = "my-project";
-    String instanceId = "my-instance";
+    String projectId = "test-project";
+    String instanceId = "test-instance";
     String databaseId = "my-database";
     batchDdlUsingSqlStatements(projectId, instanceId, databaseId);
   }
@@ -39,7 +39,7 @@ class BatchDdlUsingSqlStatementsExample {
       throws SQLException {
     String connectionUrl =
         String.format(
-            "jdbc:cloudspanner:/projects/%s/instances/%s/databases/%s",
+            "jdbc:cloudspanner://localhost:9010/projects/%s/instances/%s/databases/%s;usePlainText=true",
             projectId, instanceId, databaseId);
     try (Connection connection = DriverManager.getConnection(connectionUrl);
         Statement statement = connection.createStatement()) {
